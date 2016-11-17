@@ -6,7 +6,6 @@
       <li><%= x.thoughts + "    |    " + (x.rating).to_s + "stars" %></li>
         <% end %>
      <br>
-
     <p> <%= link_to "Leave review for #{restaurant.name}", new_restaurant_review_path(restaurant) %> </p>
     <p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
     <p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
