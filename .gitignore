@@ -13,4 +13,5 @@
 /tmp
 
 .env
-./config/secrets.yml
+# This doesn't work
+/config/secrets.yml
