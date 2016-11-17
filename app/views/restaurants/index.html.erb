@@ -2,12 +2,11 @@
   <% @restaurants.each do |restaurant| %>
     <h2><%= link_to restaurant.name, restaurant_path(restaurant) %> </h2>
     <p> <%= restaurant.description %></p>
-      <%= restaurant.reviews.each do |x| %>
-      <li><%= x.thoughts %></li>
-
+      <% restaurant.reviews.each do |x| %>
+      <li><%= x.thoughts + "    |    " + (x.rating).to_s + "stars" %></li>
         <% end %>
      <br>
-      <%= restaurant.reviews.map {|x| x[:rating]}.join(', ') %>
+
     <p> <%= link_to "Leave review for #{restaurant.name}", new_restaurant_review_path(restaurant) %> </p>
     <p> <%= link_to "Edit #{restaurant.name}", edit_restaurant_path(restaurant) %> </p>
     <p> <%= link_to "Delete #{restaurant.name}", restaurant_path(restaurant), method: :delete %> </p>
