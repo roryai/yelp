@@ -1,6 +1,17 @@
 require 'rails_helper'
 
+
+
 feature 'restaurants' do
+
+  before do
+    visit '/restaurants'
+    click_link 'Sign up'
+    fill_in 'Email', with: 'bob@bob.com'
+    fill_in 'Password', with: 'bob123'
+    fill_in 'Password confirmation', with: 'bob123'
+    click_button 'Sign up'
+  end
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -22,6 +33,16 @@ feature 'restaurants' do
 end
 
   context 'creating restaurants' do
+    it "allows authenticated access" do
+      visit '/restaurants'
+      click_link 'Add a restaurant'
+      fill_in 'Name', with: 'Kung Food'
+      click_button 'Create Restaurant'
+      expect(page).not_to have_content('You need to sign in or sign up before continuing')
+      expect(page).to have_content('Kung Food')
+    end
+
+
 
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
       visit '/restaurants'
@@ -79,5 +100,7 @@ end
       expect(page).to have_content 'Restaurant deleted successfully'
     end
   end
+
+
 
 end
