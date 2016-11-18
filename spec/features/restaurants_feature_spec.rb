@@ -1,17 +1,7 @@
 require 'rails_helper'
 
-
-
 feature 'restaurants' do
 
-  before do
-    visit '/restaurants'
-    click_link 'Sign up'
-    fill_in 'Email', with: 'bob@bob.com'
-    fill_in 'Password', with: 'bob123'
-    fill_in 'Password confirmation', with: 'bob123'
-    click_button 'Sign up'
-  end
   context 'no restaurants have been added' do
     scenario 'should display a prompt to add a restaurant' do
       visit '/restaurants'
@@ -34,7 +24,7 @@ end
 
   context 'creating restaurants' do
     it "allows authenticated access" do
-      visit '/restaurants'
+      sign_up
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'Kung Food'
       click_button 'Create Restaurant'
@@ -42,10 +32,8 @@ end
       expect(page).to have_content('Kung Food')
     end
 
-
-
     scenario 'prompts user to fill out a form, then displays the new restaurant' do
-      visit '/restaurants'
+      sign_up
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'Kung Food'
       click_button 'Create Restaurant'
@@ -54,7 +42,7 @@ end
     end
 
     scenario 'does not allow to you to submit a name that is too short' do
-      visit '/restaurants'
+      sign_up
       click_link 'Add a restaurant'
       fill_in 'Name', with: 'KF'
       click_button 'Create Restaurant'
@@ -79,7 +67,7 @@ end
     before { Restaurant.create name: 'Kung Food', description: "Generic food" }
 
     scenario 'let a user edit a restaurant' do
-      visit 'restaurants'
+      sign_up
       click_link 'Edit Kung Food'
       fill_in 'Name', with: 'Kung F-ing amazing food'
       fill_in 'Description', with: 'Proper tasty'
@@ -94,7 +82,7 @@ end
     before { Restaurant.create name: 'KFC', description: 'Deep fried badness' }
 
     scenario 'removes a restaurant when a user clicks a delete link' do
-      visit '/restaurants'
+      sign_up
       click_link 'Delete KFC'
       expect(page).not_to have_content 'KFC'
       expect(page).to have_content 'Restaurant deleted successfully'
